@@ -2,15 +2,6 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
-<<<<<<< HEAD
-//[Ll]ibrary/
-//[Tt]emp/
-//[Oo]bj/
-//[Bb]uild/
-//[Bb]uilds/
-//[Ll]ogs/
-//[Mm]emoryCaptures/
-=======
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
