@@ -11,7 +11,7 @@ public class ObjectManagement : MonoBehaviour
     public GameObject mainCamera;
     public GameObject topdownCamera;
     public GameObject itemList;
-    
+
 
     void Start()
     {
@@ -25,7 +25,7 @@ public class ObjectManagement : MonoBehaviour
         nodeList.Clear();
         Transform[] tmpNode;
         tmpNode = route.GetComponentsInChildren<Transform>();
-        
+
         foreach (Transform t in tmpNode)
         {
             if (t != route.transform)
@@ -76,6 +76,15 @@ public class ObjectManagement : MonoBehaviour
     {
         mainCamera = GameObject.FindGameObjectWithTag("Sys").GetComponent<ObjectManagement>().mainCamera;
         topdownCamera = GameObject.FindGameObjectWithTag("Sys").GetComponent<ObjectManagement>().topdownCamera;
+    }
+    */
+
+    /*
+    GameObject itemList;
+
+    void GetItemListData()
+    {
+        itemList = GameObject.FindGameObjectWithTag("Sys").GetComponent<ObjectManagement>().itemList;
     }
     */
 }

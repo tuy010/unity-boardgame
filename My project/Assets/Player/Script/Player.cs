@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     public bool isTopdownView = false;
     public bool isBottomdownView = false;
 
+    public GameObject itemList;
+
     /// <PlayerObject>
     public GameObject img;
 
@@ -42,6 +44,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         GetCameraData();
+        GetItemListData();
 
         lv = 1;
         exp = 0;
@@ -63,7 +66,9 @@ public class Player : MonoBehaviour
         hp = hpMax;
         mp = mpMax;
 
-        inventory.Add(1, ItemCode(0));
+
+        inventory.Add(0, itemList.GetComponent<ItemList>().ItemCode(100));
+        inventory.Add(1, itemList.GetComponent<ItemList>().ItemCode(0));
     }
 
     // Update is called once per frame
@@ -83,6 +88,10 @@ public class Player : MonoBehaviour
     {
         mainCamera = GameObject.FindGameObjectWithTag("Sys").GetComponent<ObjectManagement>().mainCamera;
         topdownCamera = GameObject.FindGameObjectWithTag("Sys").GetComponent<ObjectManagement>().topdownCamera;
+    }
+    void GetItemListData()
+    {
+        itemList = GameObject.FindGameObjectWithTag("Sys").GetComponent<ObjectManagement>().itemList;
     }
     void RotateImg()
     {
@@ -106,12 +115,6 @@ public class Player : MonoBehaviour
             img.transform.LookAt(mainCamera.transform.position);
         }
             
-    }
-
-    Item ItemCode(int i)
-    {
-        if (GameObject.FindGameObjectWithTag("Sys").GetComponent<ObjectManagement>().itemList.GetComponent<ItemList>().Items.Count > i) return GameObject.FindGameObjectWithTag("Sys").GetComponent<ObjectManagement>().itemList.GetComponent<ItemList>().Items[i];
-        else return null;
     }
 
     public void RemoveItem(int i)
