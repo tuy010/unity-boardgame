@@ -12,11 +12,26 @@ public class ItemPotion : Item
     }
 
     [Header("value")]
-    public int hp;
-    public int mp;
-    public int exp;
+    [SerializeField] private int _hp;
+    [SerializeField] private int _mp;
+    [SerializeField] private int _exp;
 
-    public override void UseItem(GameObject target)
+    [HideInInspector]
+    public int hp
+    {
+        get { return _hp; }
+    }
+    [HideInInspector]
+    public int mp
+    {
+        get { return _mp; }
+    }
+    [HideInInspector]
+    public int exp
+    {
+        get { return _exp; }
+    }
+    public override void UseItem(GameObject target, int slotnum)
     {
         if(hp != 0)target.GetComponent<Player>().hp += hp;
         if (hp != 0) target.GetComponent<Player>().mp += mp;

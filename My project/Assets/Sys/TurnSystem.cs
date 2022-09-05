@@ -22,6 +22,7 @@ public class TurnSystem : MonoBehaviour
     [SerializeField] private GameObject CheckUI;
     [SerializeField] private GameObject NodeTargeter;
     [SerializeField] private GameObject InventoryUI;
+    [SerializeField] private GameObject EquidUI;
 
 
     [Header ("Turs Sys"), SerializeField]
@@ -147,6 +148,18 @@ public class TurnSystem : MonoBehaviour
         }
         if (turnProgress == TurnProgress.Status)
         {
+            if (turnStep == 0)
+            {
+                OffMenuUI();
+                StatusUI.SetActive(true);
+                EquidUI.SetActive(true);
+                EquidUI.GetComponent<EquidUI>().target = targetPlayer;
+                EquidUI.GetComponent<EquidUI>().ReloadEquid();
+                TargetControllerUI.SetActive(true);
+                ToMainUI.SetActive(true);
+                turnStep = 1;
+            }
+
             ChangeToMainCamera(targetPlayer);
 
             StatusUI.GetComponent<StatusUI>().hp = playerList[targetPlayer].GetComponent<Player>().hp;
@@ -158,23 +171,18 @@ public class TurnSystem : MonoBehaviour
             StatusUI.GetComponent<StatusUI>().exp = playerList[targetPlayer].GetComponent<Player>().exp;
             StatusUI.GetComponent<StatusUI>().expMax = playerList[targetPlayer].GetComponent<Player>().expMax;
 
-            StatusUI.GetComponent<StatusUI>().str = playerList[targetPlayer].GetComponent<Player>().str;
-            StatusUI.GetComponent<StatusUI>().dex = playerList[targetPlayer].GetComponent<Player>().dex;
-            StatusUI.GetComponent<StatusUI>().intel = playerList[targetPlayer].GetComponent<Player>().intel;
-            StatusUI.GetComponent<StatusUI>().luk = playerList[targetPlayer].GetComponent<Player>().luk;
+            StatusUI.GetComponent<StatusUI>().str_player = playerList[targetPlayer].GetComponent<Player>().str_player;
+            StatusUI.GetComponent<StatusUI>().dex_player = playerList[targetPlayer].GetComponent<Player>().dex_player;
+            StatusUI.GetComponent<StatusUI>().int_player = playerList[targetPlayer].GetComponent<Player>().int_player;
+            StatusUI.GetComponent<StatusUI>().luk_player = playerList[targetPlayer].GetComponent<Player>().luk_player;
+
+            StatusUI.GetComponent<StatusUI>().str_up = playerList[targetPlayer].GetComponent<Player>().str_up;
+            StatusUI.GetComponent<StatusUI>().dex_up = playerList[targetPlayer].GetComponent<Player>().dex_up;
+            StatusUI.GetComponent<StatusUI>().int_up = playerList[targetPlayer].GetComponent<Player>().int_up;
+            StatusUI.GetComponent<StatusUI>().luk_up = playerList[targetPlayer].GetComponent<Player>().luk_up;
 
             StatusUI.GetComponent<StatusUI>().money = playerList[targetPlayer].GetComponent<Player>().money;
-            StatusUI.GetComponent<StatusUI>().nickname = playerList[targetPlayer].GetComponent<Player>().nickname;
-
-            if (turnStep == 0)
-            {
-                OffMenuUI();
-                StatusUI.SetActive(true);
-                TargetControllerUI.SetActive(true);
-                ToMainUI.SetActive(true);
-                turnStep=1;
-            }
-
+            StatusUI.GetComponent<StatusUI>().nickname = playerList[targetPlayer].GetComponent<Player>().nickname;           
         }
         if (turnProgress == TurnProgress.Topview_Free)
         {
@@ -262,6 +270,7 @@ public class TurnSystem : MonoBehaviour
         ToMainUI.SetActive(false);
         MapUI.SetActive(false);
         InventoryUI.SetActive(false);
+        EquidUI.SetActive(false);
     }
 
     /// <GetData>

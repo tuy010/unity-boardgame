@@ -57,6 +57,9 @@ public class Inventory : MonoBehaviour
         nowItem = n;
         isShowInfo = true;
         ItemInfoUI.SetActive(true);
+        ItemInfoUI.GetComponent<ItemInfo>().useButton.SetActive(true);
+        ItemInfoUI.GetComponent<ItemInfo>().discardButton.SetActive(true);
+        ItemInfoUI.GetComponent<ItemInfo>().unequidButton.SetActive(false);
         ItemInfoUI.GetComponent<ItemInfo>().name.text = slots[n].item.itemName;
         ItemInfoUI.GetComponent<ItemInfo>().img.sprite = slots[n].item.itemImage;
         ItemInfoUI.GetComponent<ItemInfo>().description.text = slots[n].item.itemDescription;
@@ -101,15 +104,10 @@ public class Inventory : MonoBehaviour
         }
         ReloadInventory();
     }
-    public void CloseInfo()
-    {
-        isShowInfo = false;
-        ReloadInventory();
-    }
     public void UseItem()
     {
-        slots[nowItem].item.UseItem(playerList[target]);
-        playerList[target].GetComponent<Player>().RemoveItem(nowItem);
+        slots[nowItem].item.UseItem(playerList[target],nowItem);
+        if (slots[nowItem].item.itemType==Item.ItemType.Potion|| slots[nowItem].item.itemType == Item.ItemType.SpecialPotion|| slots[nowItem].item.itemType == Item.ItemType.Scroll) playerList[target].GetComponent<Player>().RemoveItem(nowItem);
         isShowInfo = false;
         ReloadInventory();
     }

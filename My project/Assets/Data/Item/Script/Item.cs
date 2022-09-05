@@ -24,5 +24,5 @@ public abstract class Item : ScriptableObject
     [Space]
     public Sprite itemImage;
 
-    public abstract void UseItem(GameObject target);
+    public abstract void UseItem(GameObject target, int slotnum);
 }

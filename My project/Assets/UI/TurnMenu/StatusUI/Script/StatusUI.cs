@@ -35,10 +35,15 @@ public class StatusUI : MonoBehaviour
     public int exp;
     public int expMax;
 
-    public int str;
-    public int dex;
-    public int intel;
-    public int luk;
+    public int str_player;
+    public int dex_player;
+    public int int_player;
+    public int luk_player;
+
+    public int str_up;
+    public int dex_up;
+    public int int_up;
+    public int luk_up;
 
     public int money;
 
@@ -56,10 +61,10 @@ public class StatusUI : MonoBehaviour
             nicknameUI.text = nickname;
             lvUI.text = "LV : "+lv;
 
-            strUI.text = "STR : "+str;
-            dexUI.text = "DEX : "+dex;
-            intelUI.text = "INT : " + intel;
-            lukUI.text = "LUK : " + luk;
+            strUI.text = "STR: "+(str_player + str_up)+" (" +str_player + "+"+ str_up+")";
+            dexUI.text = "DEX: " + (dex_player + dex_up) + " (" + dex_player + "+" + dex_up + ")";
+            intelUI.text = "INT: " + (int_player + int_up) + " (" + int_player + "+" + int_up + ")";
+            lukUI.text = "LUK: " + (luk_player + luk_up) + " (" + luk_player + "+" + luk_up + ")";
             moneyUI.text = "Money : " + money;
 
             hpUI.value = hp;
