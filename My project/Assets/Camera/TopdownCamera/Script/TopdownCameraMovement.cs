@@ -38,27 +38,27 @@ public class TopdownCameraMovement : MonoBehaviour
         {
             foreach (GameObject player in playerList)
             {
-                GameObject img = player.GetComponent<Player>().img;
-                Color color = img.GetComponent<SpriteRenderer>().color;
+                SpriteRenderer img_SpriteRenderer = player.GetComponent<Player>().img.GetComponent<SpriteRenderer>();
+                Color color = img_SpriteRenderer.color;
                 if(target != -1)
                 {
                     if (playerList[target] != player)
                     {
-                        img.GetComponent<SpriteRenderer>().sortingOrder = 0;
+                        img_SpriteRenderer.sortingOrder = 0;
                         color.a = 0.7f;
                     }
                     else
                     {
-                        img.GetComponent<SpriteRenderer>().sortingOrder = 1;
+                        img_SpriteRenderer.sortingOrder = 1;
                         color.a = 1f;
                     }
                 }
                 else
                 {
-                    img.GetComponent<SpriteRenderer>().sortingOrder = 0;
+                    img_SpriteRenderer.sortingOrder = 0;
                     color.a = 1f;
                 }
-                img.GetComponent<SpriteRenderer>().color = color;
+                img_SpriteRenderer.color = color;
             }
         }  
     }

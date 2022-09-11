@@ -8,11 +8,6 @@ public class GameInfo : MonoBehaviour
     public int turn;
     public TextMeshProUGUI turnText;
 
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {

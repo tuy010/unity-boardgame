@@ -7,7 +7,7 @@ using TMPro;
 public class ChanceUI : MonoBehaviour
 {
     [Header("UI")]
-    public TextMeshProUGUI name;
+    public TextMeshProUGUI eventName;
     public TextMeshProUGUI script;
     public Image img;
 
@@ -17,15 +17,4 @@ public class ChanceUI : MonoBehaviour
 
     public TextMeshProUGUI yesText;
     public TextMeshProUGUI noText;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

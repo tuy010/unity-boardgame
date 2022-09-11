@@ -21,7 +21,7 @@ public class ChanceManager : MonoBehaviour
 public class ChanceData : ScriptableObject
 {
     public int code;
-    public string name;
+    public string chanceName;
     public string script;
 
     public bool isOption;
@@ -34,15 +34,15 @@ public class ChanceData : ScriptableObject
     public string optionTwo;
 
 
-    public ChanceData(int code, string name, string script, bool isOption = false)
+    public ChanceData(int code, string chanceName, string script, bool isOption = false)
     {
         this.code = code;
-        this.name = name;
+        this.chanceName = chanceName;
         this.script = script;
         this.isOption = false;
     }
 
-    public ChanceData(int code, string name, string script, bool isOption, string optionOne, string optionTwo) : this(code, name, script)
+    public ChanceData(int code, string chanceName, string script, bool isOption, string optionOne, string optionTwo) : this(code, chanceName, script)
     {
         this.isOption = isOption;
         this.optionOne = optionOne;

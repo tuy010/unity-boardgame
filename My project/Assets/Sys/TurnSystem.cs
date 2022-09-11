@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,17 +13,23 @@ public class TurnSystem : MonoBehaviour
     public GameObject topdownCamera;
 
     [Header ("UI"), SerializeField]
-    private GameObject MainMenu;
-    [SerializeField] private GameObject GameInfoUI;
-    [SerializeField] private GameObject DiceUI;
-    [SerializeField] private GameObject StatusUI;
-    [SerializeField] private GameObject TargetControllerUI;
-    [SerializeField] private GameObject ToMainUI;
-    [SerializeField] private GameObject MapUI;
-    [SerializeField] private GameObject CheckUI;
-    [SerializeField] private GameObject NodeTargeter;
-    [SerializeField] private GameObject InventoryUI;
-    [SerializeField] private GameObject EquidUI;
+    private GameObject mainMenu;
+    [SerializeField] private GameObject gameInfoUI;
+    GameInfo gameInfoUI_GameInfo;
+    [SerializeField] private GameObject diceUI;
+    DiceUI diceUI_DiceUI;
+    [SerializeField] private GameObject statusUI;
+    StatusUI statusUI_StatusUI;
+    [SerializeField] private GameObject targetControllerUI;
+    [SerializeField] private GameObject toMainUI;
+    [SerializeField] private GameObject mapUI;
+    MapUI mapUI_MapUI;
+    [SerializeField] private GameObject checkUI;
+    [SerializeField] private GameObject nodeTargeter;
+    [SerializeField] private GameObject inventoryUI;
+    Inventory inventoryUI_Inventory;
+    [SerializeField] private GameObject equidUI;
+    EquidUI equidUI_EquidUI;
 
 
     [Header ("Turs Sys"), SerializeField]
@@ -40,7 +47,8 @@ public class TurnSystem : MonoBehaviour
         Status,
         Inventory,
         Topview_Free,
-        Topview_Target
+        Topview_Target,
+        TownNode
     }
     [Header ("Turn Progress")]
     public TurnProgress turnProgress = TurnProgress.Main;
@@ -62,6 +70,7 @@ public class TurnSystem : MonoBehaviour
         GetPlayerData();
         GetNodeData();
         GetCameraData();
+        GetUIScript();
 
         ChangeToMainCamera();
     }
@@ -78,7 +87,7 @@ public class TurnSystem : MonoBehaviour
             turnStep = 0;
         }
 
-        GameInfoUI.GetComponent<GameInfo>().turn = totalturn;
+        gameInfoUI_GameInfo.turn = totalturn;
 
         /// <Main>
         if (turnProgress == TurnProgress.Main)
@@ -89,25 +98,25 @@ public class TurnSystem : MonoBehaviour
             if(turnStep == 0)
             {
                 OffMenuUI();
-                MainMenu.SetActive(true);
+                mainMenu.SetActive(true);
                 turnStep = 1;
             }
             
         }
-        if (turnProgress == TurnProgress.RollDice)
+        else if (turnProgress == TurnProgress.RollDice)
         {   
             if(turnStep == 0)
             {
                 dice = Random.Range(1, 7);
                 OffMenuUI();
-                DiceUI.SetActive(true);
+                diceUI.SetActive(true);
                 turnStep++;
                 timer = 0;
             }
             if(turnStep == 1)
             {
                 timer += Time.deltaTime;
-                DiceUI.GetComponent<DiceUI>().num = Random.Range(1, 9);
+                diceUI_DiceUI.num = Random.Range(1, 9);
                 if (timer > 1f)
                 {
                     timer = 0;
@@ -116,7 +125,7 @@ public class TurnSystem : MonoBehaviour
             }
             if(turnStep == 2)
             {
-                DiceUI.GetComponent<DiceUI>().num = dice;
+                diceUI_DiceUI.num = dice;
                 timer += Time.deltaTime;               
                 if (timer > 1f)
                 {
@@ -133,115 +142,138 @@ public class TurnSystem : MonoBehaviour
                 turnStep = 0;
             }
         }
-        if (turnProgress == TurnProgress.Inventory)
+        else if (turnProgress == TurnProgress.Inventory)
         {
             if (turnStep == 0)
             {
                 OffMenuUI();
-                InventoryUI.SetActive(true);
-                InventoryUI.GetComponent<Inventory>().target = targetPlayer;
-                InventoryUI.GetComponent<Inventory>().isShowInfo = false;
-                InventoryUI.GetComponent<Inventory>().ReloadInventory();
-                ToMainUI.SetActive(true);
+                inventoryUI.SetActive(true);
+                inventoryUI_Inventory.target = targetPlayer;
+                inventoryUI_Inventory.isShowInfo = false;
+                inventoryUI_Inventory.ReloadInventory();
+                toMainUI.SetActive(true);
                 turnStep = 1;
             }
         }
-        if (turnProgress == TurnProgress.Status)
+        else if (turnProgress == TurnProgress.Status)
         {
             if (turnStep == 0)
             {
                 OffMenuUI();
-                StatusUI.SetActive(true);
-                EquidUI.SetActive(true);
-                EquidUI.GetComponent<EquidUI>().target = targetPlayer;
-                EquidUI.GetComponent<EquidUI>().ReloadEquid();
-                TargetControllerUI.SetActive(true);
-                ToMainUI.SetActive(true);
+                statusUI.SetActive(true);
+                equidUI.SetActive(true);
+                equidUI_EquidUI.target = targetPlayer;
+                equidUI_EquidUI.ReloadEquid();
+                targetControllerUI.SetActive(true);
+                toMainUI.SetActive(true);
                 turnStep = 1;
             }
 
             ChangeToMainCamera(targetPlayer);
+            Player target_Player = playerList[targetPlayer].GetComponent<Player>();
 
-            StatusUI.GetComponent<StatusUI>().hp = playerList[targetPlayer].GetComponent<Player>().hp;
-            StatusUI.GetComponent<StatusUI>().hpMax = playerList[targetPlayer].GetComponent<Player>().hpMax;
-            StatusUI.GetComponent<StatusUI>().mp = playerList[targetPlayer].GetComponent<Player>().mp;
-            StatusUI.GetComponent<StatusUI>().mpMax = playerList[targetPlayer].GetComponent<Player>().mpMax;
+            statusUI_StatusUI.hp = target_Player.hp;
+            statusUI_StatusUI.hpMax = target_Player.hpMax;
+            statusUI_StatusUI.mp = target_Player.mp;
+            statusUI_StatusUI.mpMax = target_Player.mpMax;
 
-            StatusUI.GetComponent<StatusUI>().lv = playerList[targetPlayer].GetComponent<Player>().lv;
-            StatusUI.GetComponent<StatusUI>().exp = playerList[targetPlayer].GetComponent<Player>().exp;
-            StatusUI.GetComponent<StatusUI>().expMax = playerList[targetPlayer].GetComponent<Player>().expMax;
+            statusUI_StatusUI.lv = target_Player.lv;
+            statusUI_StatusUI.exp = target_Player.exp;
+            statusUI_StatusUI.expMax = target_Player.expMax;
 
-            StatusUI.GetComponent<StatusUI>().str_player = playerList[targetPlayer].GetComponent<Player>().str_player;
-            StatusUI.GetComponent<StatusUI>().dex_player = playerList[targetPlayer].GetComponent<Player>().dex_player;
-            StatusUI.GetComponent<StatusUI>().int_player = playerList[targetPlayer].GetComponent<Player>().int_player;
-            StatusUI.GetComponent<StatusUI>().luk_player = playerList[targetPlayer].GetComponent<Player>().luk_player;
+            statusUI_StatusUI.str_player = target_Player.str_player;
+            statusUI_StatusUI.dex_player = target_Player.dex_player;
+            statusUI_StatusUI.int_player = target_Player.int_player;
+            statusUI_StatusUI.luk_player = target_Player.luk_player;
 
-            StatusUI.GetComponent<StatusUI>().str_up = playerList[targetPlayer].GetComponent<Player>().str_up;
-            StatusUI.GetComponent<StatusUI>().dex_up = playerList[targetPlayer].GetComponent<Player>().dex_up;
-            StatusUI.GetComponent<StatusUI>().int_up = playerList[targetPlayer].GetComponent<Player>().int_up;
-            StatusUI.GetComponent<StatusUI>().luk_up = playerList[targetPlayer].GetComponent<Player>().luk_up;
+            statusUI_StatusUI.str_up = target_Player.str_up;
+            statusUI_StatusUI.dex_up = target_Player.dex_up;
+            statusUI_StatusUI.int_up = target_Player.int_up;
+            statusUI_StatusUI.luk_up = target_Player.luk_up;
 
-            StatusUI.GetComponent<StatusUI>().money = playerList[targetPlayer].GetComponent<Player>().money;
-            StatusUI.GetComponent<StatusUI>().nickname = playerList[targetPlayer].GetComponent<Player>().nickname;           
+            statusUI_StatusUI.money = target_Player.money;
+            statusUI_StatusUI.nickname = target_Player.nickname;           
         }
-        if (turnProgress == TurnProgress.Topview_Free)
+        else if (turnProgress == TurnProgress.Topview_Free)
         {
             if (turnStep == 0)
             {
                 OffMenuUI();
                 turnStep = 1;
 
-                ToMainUI.SetActive(true);
-                MapUI.SetActive(true);
+                toMainUI.SetActive(true);
+                mapUI.SetActive(true);
             }
             ChangeToTopdownView();
-            MapUI.GetComponent<MapUI>().nickname.text = "";
+            mapUI_MapUI.nickname.text = "";
         }
-        if (turnProgress == TurnProgress.Topview_Target)
+        else if (turnProgress == TurnProgress.Topview_Target)
         {
             if (turnStep == 0)
             {
                 OffMenuUI();
                 turnStep = 1;
 
-                TargetControllerUI.SetActive(true);
-                ToMainUI.SetActive(true);
-                MapUI.SetActive(true);
+                targetControllerUI.SetActive(true);
+                toMainUI.SetActive(true);
+                mapUI.SetActive(true);
             }
             ChangeToTopdownView(targetPlayer);
-            MapUI.GetComponent<MapUI>().nickname.text = playerList[targetPlayer].GetComponent<Player>().nickname;
+            mapUI_MapUI.nickname.text = playerList[targetPlayer].GetComponent<Player>().nickname;
         }
         /// </Main>
 
         /// <DiceAndMove>
-        if (playerList[playerCount].GetComponent<Player>().nowNode.GetComponent<Node>().isCrossroad && turnProgress == TurnProgress.Move && diceCnt < dice)
+        else if(turnProgress == TurnProgress.Move)
         {
-            ChoseCrossroad(playerList[playerCount]);
-        }
-        else if (!playerList[playerCount].GetComponent<Player>().nowNode.GetComponent<Node>().isCrossroad&&turnProgress == TurnProgress.Move && diceCnt < dice)
-        {
-            timer += Time.deltaTime;
-            if (timer > 0.5f)
+            Player player_Player = playerList[playerCount].GetComponent<Player>();
+            Node nownode_Node = player_Player.nowNode.GetComponent<Node>();
+            if(player_Player.nowNode == player_Player.townNode && diceCnt != 0)
             {
-                MovePlayer(playerList[playerCount]);
-                timer = 0;
-                diceCnt++;
+                turnProgress = TurnProgress.TownNode;
             }
-        }
-        else if (turnProgress == TurnProgress.Move && diceCnt >= dice)
-        {
-            timer += Time.deltaTime;
-            if (timer > 1)
+            else if (nownode_Node.isCrossroad && diceCnt < dice && turnStep == 0)
             {
-                turnProgress = TurnProgress.NodeEvent;
-                timer = 0;
-                diceCnt = 0;
+                ChoseCrossroad(playerList[playerCount]);
             }
-        }
-        else if (turnProgress == TurnProgress.NodeEvent&&turnStep==0)
+            else if (nownode_Node.nodeType == Node.NodeType.PortalNode)
+            {
+                timer += Time.deltaTime;
+                if (timer > 0.5f)
+                {
+                    player_Player.nowNode = player_Player.townNode;
+                    timer = 0;
+                    turnProgress = TurnProgress.TownNode;
+                }
+            }
+            else if (diceCnt < dice)
+            {
+                timer += Time.deltaTime;
+                if (timer > 0.5f)
+                {
+                    MovePlayer(playerList[playerCount]);
+                    timer = 0;
+                    diceCnt++;
+                }
+            }
+            else if (diceCnt >= dice)
+            {
+                timer += Time.deltaTime;
+                if (timer > 1)
+                {
+                    turnProgress = TurnProgress.NodeEvent;
+                    timer = 0;
+                    diceCnt = 0;
+                }
+            }
+        }      
+        else if (turnProgress == TurnProgress.NodeEvent)
         {
-            NodeEvent(playerList[playerCount]);
-            turnStep++;
+            if(turnStep == 0)
+            {
+                NodeEvent(playerList[playerCount]);
+                turnStep++;
+            }
         }
         else if (turnProgress == TurnProgress.TurnEnd)
         {
@@ -263,14 +295,14 @@ public class TurnSystem : MonoBehaviour
 
     void OffMenuUI()
     {
-        MainMenu.SetActive(false);
-        DiceUI.SetActive(false);
-        StatusUI.SetActive(false);
-        TargetControllerUI.SetActive(false);
-        ToMainUI.SetActive(false);
-        MapUI.SetActive(false);
-        InventoryUI.SetActive(false);
-        EquidUI.SetActive(false);
+        mainMenu.SetActive(false);
+        diceUI.SetActive(false);
+        statusUI.SetActive(false);
+        targetControllerUI.SetActive(false);
+        toMainUI.SetActive(false);
+        mapUI.SetActive(false);
+        inventoryUI.SetActive(false);
+        equidUI.SetActive(false);
     }
 
     /// <GetData>
@@ -286,6 +318,15 @@ public class TurnSystem : MonoBehaviour
     {
         mainCamera = GameObject.FindGameObjectWithTag("Sys").GetComponent<ObjectManagement>().mainCamera;
         topdownCamera = GameObject.FindGameObjectWithTag("Sys").GetComponent<ObjectManagement>().topdownCamera;
+    }
+    void GetUIScript()
+    {
+        gameInfoUI_GameInfo = gameInfoUI.GetComponent<GameInfo>();
+        diceUI_DiceUI = diceUI.GetComponent<DiceUI>();
+        statusUI_StatusUI = statusUI.GetComponent<StatusUI>();
+        mapUI_MapUI = mapUI.GetComponent<MapUI>();
+        inventoryUI_Inventory = inventoryUI.GetComponent<Inventory>();
+        equidUI_EquidUI = equidUI.GetComponent<EquidUI>();
     }
     /// </GetData>
  
@@ -314,25 +355,27 @@ public class TurnSystem : MonoBehaviour
     }
     void NodeEvent(GameObject player)
     {
-        GameObject node = player.GetComponent<Player>().nowNode;
-        Node.NodeType type = node.GetComponent<Node>().nodeType;
-
-        switch (type)
+        Player player_Player = player.GetComponent<Player>();
+        Node.NodeType type = player_Player.nowNode.GetComponent<Node>().nodeType;
+        if (player_Player.nowNode == player_Player.townNode)
         {
-            case Node.NodeType.TownNode:
-                turnProgress = TurnProgress.TurnEnd;
-                break;
-            case Node.NodeType.MonsterNode:
-                turnProgress = TurnProgress.TurnEnd;
-                break;
-            case Node.NodeType.ChanceNode:
-                GetComponent<NodeEvnet_Chance>().Chance(player);
-                break;
-            default:
-                turnProgress = TurnProgress.TurnEnd;
-                break;
+            
         }
-
+        else
+        {
+            switch (type)
+            {
+                case Node.NodeType.MonsterNode:
+                    turnProgress = TurnProgress.TurnEnd;
+                    break;
+                case Node.NodeType.ChanceNode:
+                    GetComponent<NodeEvnet_Chance>().Chance(player);
+                    break;
+                default:
+                    turnProgress = TurnProgress.TurnEnd;
+                    break;
+            }
+        }      
     }
     void ChoseCrossroad(GameObject player)
     {
@@ -365,7 +408,7 @@ public class TurnSystem : MonoBehaviour
         {
             if(turnStep == 0)
             {
-                CheckUI.SetActive(true);
+                checkUI.SetActive(true);
                 turnStep = 1;
             }
             else if (turnStep == 1&&pressCheckbutton)
@@ -373,7 +416,7 @@ public class TurnSystem : MonoBehaviour
                 timer = 0;
                 diceCnt++;
                 pressCheckbutton = false;
-                CheckUI.SetActive(false);
+                checkUI.SetActive(false);
                 ShowNodeTarget();
                 MovePlayer(player, isAnotherRoad);
                 isAnotherRoad = -1;
@@ -383,14 +426,15 @@ public class TurnSystem : MonoBehaviour
     }
     void ShowNodeTarget(GameObject node = null)
     {
-        if(node == null) NodeTargeter.SetActive(false);
+        if(node == null) nodeTargeter.SetActive(false);
         else
         {
-            if (!NodeTargeter.activeSelf)
+            if (!nodeTargeter.activeSelf)
             {
-                NodeTargeter.SetActive(true);
+                nodeTargeter.SetActive(true);
             }
-            NodeTargeter.GetComponent<Transform>().position = new Vector3(node.GetComponent<Transform>().position.x, node.GetComponent<Transform>().position.y+0.2f, node.GetComponent<Transform>().position.z);
+            Transform tmp = node.GetComponent<Transform>();
+            nodeTargeter.GetComponent<Transform>().position = new Vector3(tmp.position.x, tmp.position.y+0.2f, tmp.position.z);
         }
     }
     /// </DiceAndMove>
@@ -437,7 +481,7 @@ public class TurnSystem : MonoBehaviour
         turnProgress = TurnProgress.Topview_Free;
         targetPlayer = -1;
         turnStep = 0;
-        MapUI.GetComponent<MapUI>().nickname.text = "";
+        mapUI_MapUI.nickname.text = "";
     }
     public void ButtonMapSwitch()
     {

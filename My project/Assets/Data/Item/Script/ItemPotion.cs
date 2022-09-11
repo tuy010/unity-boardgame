@@ -33,8 +33,9 @@ public class ItemPotion : Item
     }
     public override void UseItem(GameObject target, int slotnum)
     {
-        if(hp != 0)target.GetComponent<Player>().hp += hp;
-        if (hp != 0) target.GetComponent<Player>().mp += mp;
-        if (hp != 0) target.GetComponent<Player>().exp += exp;
+        Player target_Player= target.GetComponent<Player>();
+        if(hp != 0) target_Player.hp += hp;
+        if (hp != 0) target_Player.mp += mp;
+        if (hp != 0) target_Player.exp += exp;
     }
 }

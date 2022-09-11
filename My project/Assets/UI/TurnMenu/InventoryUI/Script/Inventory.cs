@@ -36,7 +36,7 @@ public class Inventory : MonoBehaviour
 
     public void ReloadInventory()
     {
-        for(int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
             Item value = null;
             bool isUsed = playerList[target].GetComponent<Player>().inventory.TryGetValue(i, out value);
@@ -57,49 +57,50 @@ public class Inventory : MonoBehaviour
         nowItem = n;
         isShowInfo = true;
         ItemInfoUI.SetActive(true);
-        ItemInfoUI.GetComponent<ItemInfo>().useButton.SetActive(true);
-        ItemInfoUI.GetComponent<ItemInfo>().discardButton.SetActive(true);
-        ItemInfoUI.GetComponent<ItemInfo>().unequidButton.SetActive(false);
-        ItemInfoUI.GetComponent<ItemInfo>().name.text = slots[n].item.itemName;
-        ItemInfoUI.GetComponent<ItemInfo>().img.sprite = slots[n].item.itemImage;
-        ItemInfoUI.GetComponent<ItemInfo>().description.text = slots[n].item.itemDescription;
+        ItemInfo tmp = ItemInfoUI.GetComponent<ItemInfo>();
+        tmp.useButton.SetActive(true);
+        tmp.discardButton.SetActive(true);
+        tmp.unequidButton.SetActive(false);
+        tmp.itemName.text = slots[n].item.itemName;
+        tmp.img.sprite = slots[n].item.itemImage;
+        tmp.description.text = slots[n].item.itemDescription;
         switch (slots[n].item.itemType)
         {
             case Item.ItemType.Weapon:
-                ItemInfoUI.GetComponent<ItemInfo>().type.text = "무기";
-                ItemInfoUI.GetComponent<ItemInfo>().UseText.text = "장착";
+                tmp.type.text = "무기";
+                tmp.UseText.text = "장착";
                 break;
             case Item.ItemType.Armor:
-                ItemInfoUI.GetComponent<ItemInfo>().type.text = "방어구";
-                ItemInfoUI.GetComponent<ItemInfo>().UseText.text = "장착";
+                tmp.type.text = "방어구";
+                tmp.UseText.text = "장착";
                 break;
             case Item.ItemType.Ring:
-                ItemInfoUI.GetComponent<ItemInfo>().type.text = "반지";
-                ItemInfoUI.GetComponent<ItemInfo>().UseText.text = "장착";
+                tmp.type.text = "반지";
+                tmp.UseText.text = "장착";
                 break;
             case Item.ItemType.Potion:
-                ItemInfoUI.GetComponent<ItemInfo>().type.text = "포션(소모품)";
-                ItemInfoUI.GetComponent<ItemInfo>().UseText.text = "사용";
+                tmp.type.text = "포션(소모품)";
+                tmp.UseText.text = "사용";
                 break;
             case Item.ItemType.SpecialPotion:
-                ItemInfoUI.GetComponent<ItemInfo>().type.text = "비약(소모품)";
-                ItemInfoUI.GetComponent<ItemInfo>().UseText.text = "사용";
+                tmp.type.text = "비약(소모품)";
+                tmp.UseText.text = "사용";
                 break;
             case Item.ItemType.Scroll:
-                ItemInfoUI.GetComponent<ItemInfo>().type.text = "스크롤(소모품)";
-                ItemInfoUI.GetComponent<ItemInfo>().UseText.text = "사용";
+                tmp.type.text = "스크롤(소모품)";
+                tmp.UseText.text = "사용";
                 break;
             case Item.ItemType.Quest:
-                ItemInfoUI.GetComponent<ItemInfo>().type.text = "퀘스트 용품";
-                ItemInfoUI.GetComponent<ItemInfo>().UseText.text = "???";
+                tmp.type.text = "퀘스트 용품";
+                tmp.UseText.text = "???";
                 break;
             case Item.ItemType.ETC:
-                ItemInfoUI.GetComponent<ItemInfo>().type.text = "기타";
-                ItemInfoUI.GetComponent<ItemInfo>().UseText.text = "???";
+                tmp.type.text = "기타";
+                tmp.UseText.text = "???";
                 break;
             default:
-                ItemInfoUI.GetComponent<ItemInfo>().type.text = "???";
-                ItemInfoUI.GetComponent<ItemInfo>().UseText.text = "???";
+                tmp.type.text = "???";
+                tmp.UseText.text = "???";
                 break;
         }
         ReloadInventory();

@@ -6,7 +6,7 @@ using TMPro;
 
 public class ItemInfo : MonoBehaviour
 {
-    public TextMeshProUGUI name;
+    public TextMeshProUGUI itemName;
     public TextMeshProUGUI type;
     public TextMeshProUGUI description;
     public TextMeshProUGUI UseText;

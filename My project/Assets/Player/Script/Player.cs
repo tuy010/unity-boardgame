@@ -5,43 +5,119 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     /// <Camera>
-    public GameObject mainCamera;
-    public GameObject topdownCamera;
-    public bool isTopdownView = false;
-    public bool isBottomdownView = false;
-
-    public GameObject itemList;
+    ObjectManagement sysObject;
+     GameObject mainCamera;
+     GameObject topdownCamera;
+     bool isTopdownView = false;
 
     /// <PlayerObject>
-    public GameObject img;
+    [SerializeField] public GameObject img;
 
     /// <PlayerData>
-    public int code;
+    public int code = -1;
+    public GameObject townNode;
     public string nickname;
 
     public int hp = 100;
-    public int hpMax = 100;
+    int _hpMax = 100;
+    public  int hpMax
+    { 
+        get { return _hpMax; }
+        private set { _hpMax = value; }
+    }
+
     public int mp = 100;
-    public int mpMax = 100;
+    int _mpMax = 100;
+    public int mpMax
+    {
+        get { return _mpMax; }
+        private set { _mpMax = value; }
+    }
 
     public int lv = 1;
+
     public int exp = 0;
-    public int expMax = 100;
+    int _expMax = 100;
+    public int expMax
+    {
+        get { return _expMax; }
+        private set { _expMax = value; }
+    }
 
-    public int str_player = 10;
-    public int dex_player = 10;
-    public int int_player = 10;
-    public int luk_player = 10;
+    int _str_player = 10;
+    public int str_player
+    {
+        get { return _str_player; }
+        private set { _str_player = value; }
+    }
+    int _dex_player = 10;
+    public int dex_player
+    {
+        get { return _dex_player; }
+        private set { _dex_player = value; }
+    }
+    int _int_player = 10;
+    public int int_player
+    {
+        get { return _int_player; }
+        private set { _int_player = value; }
+    }
+    int _luk_player = 10;
+    public int luk_player
+    {
+        get { return _luk_player; }
+        private set { _luk_player = value; }
+    }
 
-    public int str_up = 0;
-    public int dex_up = 0;
-    public int int_up = 0;
-    public int luk_up = 0;
+    int _str_up = 0;
+    public int str_up
+    {
+        get { return _str_up; }
+        private set { _str_up = value; }
+    }
+    int _dex_up = 0;
+    public int dex_up
+    {
+        get { return _dex_up; }
+        private set { _dex_up = value; }
+    }
+    int _int_up = 0;
+    public int int_up
+    {
+        get { return _int_up; }
+        private set { _int_up = value; }
+    }
+    int _luk_up = 0;
+    public int luk_up
+    {
+        get { return _luk_up; }
+        private set { _luk_up = value; }
+    }
 
-    public int str_total = 0;
-    public int dex_total = 0;
-    public int int_total = 0;
-    public int luk_total = 0;
+    int _str_total = 0;
+    public int str_total
+    {
+        get { return _str_total; }
+        private set { _str_total = value; }
+    }
+    int _dex_total = 0;
+    public int dex_total
+    {
+        get { return _dex_total; }
+        private set { _dex_total = value; }
+    }
+    int _int_total = 0;
+    public int int_total
+    {
+        get { return _int_total; }
+        private set { _int_total = value; }
+    }
+    int _luk_total = 0;
+    public int luk_total
+    {
+        get { return _luk_total; }
+        private set { _luk_total = value; }
+    }
 
     public int money = 100;
     //
@@ -55,8 +131,8 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        GetSysObject();
         GetCameraData();
-        GetItemListData();
 
         lv = 1;
         exp = 0;
@@ -81,10 +157,10 @@ public class Player : MonoBehaviour
         mp = mpMax;
 
 
-        inventory.Add(0, itemList.GetComponent<ItemList>().ItemCode(100));
-        inventory.Add(1, itemList.GetComponent<ItemList>().ItemCode(101));
-        inventory.Add(2, itemList.GetComponent<ItemList>().ItemCode(0));
-        inventory.Add(3, itemList.GetComponent<ItemList>().ItemCode(0));
+        inventory.Add(0, GetItem(100));
+        inventory.Add(1, GetItem(101));
+        inventory.Add(2, GetItem(0));
+        inventory.Add(3, GetItem(0));
     }
 
     // Update is called once per frame
@@ -102,14 +178,14 @@ public class Player : MonoBehaviour
     }
 
     //start
+    private void GetSysObject()
+    {
+        sysObject = GameObject.FindGameObjectWithTag("Sys").GetComponent<ObjectManagement>();
+    }
     void GetCameraData()
     {
-        mainCamera = GameObject.FindGameObjectWithTag("Sys").GetComponent<ObjectManagement>().mainCamera;
-        topdownCamera = GameObject.FindGameObjectWithTag("Sys").GetComponent<ObjectManagement>().topdownCamera;
-    }
-    void GetItemListData()
-    {
-        itemList = GameObject.FindGameObjectWithTag("Sys").GetComponent<ObjectManagement>().itemList;
+        mainCamera = sysObject.mainCamera;
+        topdownCamera = sysObject.topdownCamera;
     }
 
     //update
@@ -158,6 +234,12 @@ public class Player : MonoBehaviour
         dex_total = dex_player + dex_up;
         int_total = int_player + int_up;    
         luk_total = luk_player + dex_up;
+    }
+
+    //
+    private Item GetItem(int i)
+    {
+        return sysObject.ItemCode(i);        
     }
 
     //functions

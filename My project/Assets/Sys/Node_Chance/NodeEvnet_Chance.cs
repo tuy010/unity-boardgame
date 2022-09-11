@@ -31,7 +31,7 @@ public class NodeEvnet_Chance : MonoBehaviour
         else if(isEvent&&turnStep==1)
         {
             EventUI.SetActive(true);
-            EventUI.GetComponent<ChanceUI>().name.text = chanceDatas[chanceCode].name;
+            EventUI.GetComponent<ChanceUI>().eventName.text = chanceDatas[chanceCode].chanceName;
             EventUI.GetComponent<ChanceUI>().script.text = chanceDatas[chanceCode].script;
             turnStep++;
             if (!chanceDatas[chanceCode].isOption)

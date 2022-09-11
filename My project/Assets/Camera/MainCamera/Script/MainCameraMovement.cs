@@ -24,24 +24,25 @@ public class MainCameraMovement : MonoBehaviour
         else
         {
             int tmp = 1;
+            Transform player_Transform = playerList[target].GetComponent<Transform>();
             if (tmp < 10)
-            {
-                transform.position = new Vector3(playerList[target].GetComponent<Transform>().position.x + 10f, 6f, playerList[target].GetComponent<Transform>().position.z - 10f);
+            {              
+                transform.position = new Vector3(player_Transform.position.x + 10f, 6f, player_Transform.position.z - 10f);
                 transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             }
             else if (tmp >= 10 && tmp < 19)
             {
-                transform.position = new Vector3(playerList[target].GetComponent<Transform>().position.x - 10f, 6f, playerList[target].GetComponent<Transform>().position.z - 10f);
+                transform.position = new Vector3(player_Transform.position.x - 10f, 6f, player_Transform.position.z - 10f);
                 transform.rotation = Quaternion.Euler(0f, 90f, 0f);
             }
             else if (tmp >= 19 && tmp < 28)
             {
-                transform.position = new Vector3(playerList[target].GetComponent<Transform>().position.x - 10f, 6f, playerList[target].GetComponent<Transform>().position.z + 10f);
+                transform.position = new Vector3(player_Transform.position.x - 10f, 6f, player_Transform.position.z + 10f);
                 transform.rotation = Quaternion.Euler(0f, 180f, 0f);
             }
             else if (tmp >= 28 && tmp < 37)
             {
-                transform.position = new Vector3(playerList[target].GetComponent<Transform>().position.x + 10f, 6f, playerList[target].GetComponent<Transform>().position.z + 10f);
+                transform.position = new Vector3(player_Transform.position.x + 10f, 6f, player_Transform.position.z + 10f);
                 transform.rotation = Quaternion.Euler(0f, 270f, 0f);
             }
             MakePlayerTranslucent();
@@ -60,21 +61,22 @@ public class MainCameraMovement : MonoBehaviour
         {
             GameObject playerNode = player.GetComponent<Player>().nowNode;
             if (player == null) break;
-            GameObject img = player.GetComponent<Player>().img;
-            Color color = img.GetComponent<SpriteRenderer>().color;
+            SpriteRenderer img_SpriteRenderer = player.GetComponent<Player>().img.GetComponent<SpriteRenderer>();
+            Color color = img_SpriteRenderer.color;
             if (playerList[target] != player)
             {
-                img.GetComponent<SpriteRenderer>().sortingOrder = 0;
+                img_SpriteRenderer.sortingOrder = 0;
+                Node playerNode_Node = playerNode.GetComponent<Node>();
                 if (targetNode == playerNode) color.a = 0.2f;
-                else if (targetNode == playerNode.GetComponent<Node>().prevNode|| targetNode == playerNode.GetComponent<Node>().nextNode || targetNode == playerNode.GetComponent<Node>().anotherNode) color.a = 0.5f;
+                else if (targetNode == playerNode_Node.prevNode|| targetNode == playerNode_Node.nextNode || targetNode == playerNode_Node.anotherNode) color.a = 0.5f;
                 else color.a = 1f;
             }
             else
             {
-                img.GetComponent<SpriteRenderer>().sortingOrder = 1;
+                img_SpriteRenderer.sortingOrder = 1;
                 color.a = 1f;
             }
-            img.GetComponent<SpriteRenderer>().color = color;
+            img_SpriteRenderer.color = color;
         }
     }
 

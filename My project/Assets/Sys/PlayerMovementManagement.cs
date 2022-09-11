@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerMovementManagement : MonoBehaviour
 {
     List<GameObject> playerList = new List<GameObject>();
-    List<GameObject> nodeList = new List<GameObject>();
     
     public List<GameObject> overlappingNodes = new List<GameObject>();
     public List<GameObject> activatedNodes = new List<GameObject>();
@@ -14,7 +13,6 @@ public class PlayerMovementManagement : MonoBehaviour
     void Start()
     {
         GetPlayerData();
-        GetNodeData();
     }
 
     // Update is called once per frame
@@ -27,10 +25,6 @@ public class PlayerMovementManagement : MonoBehaviour
     {
         playerList = GameObject.FindGameObjectWithTag("Sys").GetComponent<ObjectManagement>().playerList;
     }
-    void GetNodeData()
-    {
-        nodeList = GameObject.FindGameObjectWithTag("Sys").GetComponent<ObjectManagement>().nodeList;
-    }
 
     void ChangePlayersPosition()
     {
@@ -40,26 +34,27 @@ public class PlayerMovementManagement : MonoBehaviour
         foreach (GameObject t in playerList)
         {
             bool isoverlap = false;
+            Player t_Player = t.GetComponent<Player>();
             for (int i = 0; i < activatedNodes.Count; i++)
             {
-                if (activatedNodes[i] == t.GetComponent<Player>().nowNode)
+                if (activatedNodes[i] == t_Player.nowNode)
                 {
                     isoverlap = true;
                     if (overlappingNodes.Count == 0)
                     {
-                        overlappingNodes.Add(t.GetComponent<Player>().nowNode);
+                        overlappingNodes.Add(t_Player.nowNode);
                     }
                     else
                     {
                         for (int j = 0; j < overlappingNodes.Count; j++)
                         {
-                            if (overlappingNodes[j] == t.GetComponent<Player>().nowNode) break;
-                            else if ((j+1) == overlappingNodes.Count) overlappingNodes.Add(t.GetComponent<Player>().nowNode);
+                            if (overlappingNodes[j] == t_Player.nowNode) break;
+                            else if ((j+1) == overlappingNodes.Count) overlappingNodes.Add(t_Player.nowNode);
                         }
                     }
                 }
             }
-            if (!isoverlap) activatedNodes.Add(t.GetComponent<Player>().nowNode);
+            if (!isoverlap) activatedNodes.Add(t_Player.nowNode);
         }
 
 

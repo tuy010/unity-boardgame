@@ -6,45 +6,56 @@ public class Node : MonoBehaviour
 {
     public enum NodeType
     {
-        TownNode,
+        Empty,
+        TownNode_1p,
+        TownNode_2p,
+        TownNode_3p,
+        TownNode_4p,
         MonsterNode,
         ChanceNode,
+        PortalNode,
+        CrossNode
     }
-    [Header ("LinkedNode")]
-    public GameObject nextNode;
-    public GameObject prevNode;
+    [Header("LinkedNode")]
+    public GameObject nextNode = null;
+    public GameObject prevNode = null;
     public bool isCrossroad = false;
-    public GameObject anotherNode;
+    public GameObject anotherNode = null;
 
     [Header ("Node type")]
     public NodeType nodeType;
-
-    //const int TOWNNODE = 0;
-    //const int BATTLENODE = 1;
-    //const int CHANCENODE = 2;
-    //const int BOXNODE = 3;
-
 
     // Start is called before the first frame update
     void Start()
     {
         switch (nodeType)
         {
-            case NodeType.TownNode:
+            case NodeType.TownNode_1p:
+                gameObject.GetComponent<Renderer>().material.color = Color.blue;
+                break;
+            case NodeType.TownNode_2p:
+                gameObject.GetComponent<Renderer>().material.color = Color.blue;
+                break ;
+            case NodeType.TownNode_3p:
+                gameObject.GetComponent<Renderer>().material.color = Color.blue;
+                break;
+            case NodeType.TownNode_4p:
+                gameObject.GetComponent<Renderer>().material.color = Color.blue;
                 break;
             case NodeType.MonsterNode:
+                gameObject.GetComponent<Renderer>().material.color = Color.red;
                 break;
             case NodeType.ChanceNode:
                 gameObject.GetComponent<Renderer>().material.color = Color.yellow;
                 break;
+            case NodeType.PortalNode:
+                gameObject.GetComponent<Renderer>().material.color = Color.cyan;
+                break;
+            case NodeType.CrossNode:
+                gameObject.GetComponent<Renderer>().material.color = Color.gray;
+                break;
             default:
                 break;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

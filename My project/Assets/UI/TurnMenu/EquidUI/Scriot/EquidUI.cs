@@ -11,7 +11,7 @@ public class EquidUI : MonoBehaviour
     [SerializeField] private Slot[] slots = new Slot[4];
 
 
-    [SerializeField] private GameObject ItemInfoUI;
+    [SerializeField] private GameObject itemInfoUI;
     public bool isShowInfo = false;
     public bool isShowCheck = false;
     int nowItem = -1;
@@ -28,18 +28,20 @@ public class EquidUI : MonoBehaviour
 
     public void ReloadEquid()
     {
-        for (int i = 0; i < 4; i++)
+        Player target_Player = playerList[target].GetComponent<Player>();
+        for (int i = 0, cnt = 0, size = target_Player.equid.Count; i < 4; i++)
         {
+            if (cnt == size) { slots[i].item = null; continue; }
             Item value = null;
-            bool isUsed = playerList[target].GetComponent<Player>().equid.TryGetValue(i, out value);
-            if (isUsed) slots[i].item = value;
+            bool isUsed = target_Player.equid.TryGetValue(i, out value);
+            if (isUsed) { slots[i].item = value; cnt++; }
             else slots[i].item = null;
         }
         if (!isShowInfo)
         {
             nowItem = -1;
             isShowCheck = false;
-            ItemInfoUI.SetActive(false);
+            itemInfoUI.SetActive(false);
             //ItemCheckUI.SetActive(false);
         }
     }
@@ -48,29 +50,30 @@ public class EquidUI : MonoBehaviour
     {
         if (isShowInfo || isShowCheck) return;
         nowItem = n;
-        isShowInfo = true;
-        ItemInfoUI.SetActive(true);
-        ItemInfoUI.GetComponent<ItemInfo>().useButton.SetActive(false);
-        ItemInfoUI.GetComponent<ItemInfo>().discardButton.SetActive(false);
-        ItemInfoUI.GetComponent<ItemInfo>().unequidButton.SetActive(true);
-        ItemInfoUI.GetComponent<ItemInfo>().name.text = slots[n].item.itemName;
-        ItemInfoUI.GetComponent<ItemInfo>().img.sprite = slots[n].item.itemImage;
-        ItemInfoUI.GetComponent<ItemInfo>().description.text = slots[n].item.itemDescription;
-        ItemInfoUI.GetComponent<ItemInfo>().unequidText.text = "해제";
+        isShowInfo = true;       
+        itemInfoUI.SetActive(true);
+        ItemInfo itemInfoUI_ItemInfo = itemInfoUI.GetComponent<ItemInfo>();
+        itemInfoUI_ItemInfo.useButton.SetActive(false);
+        itemInfoUI_ItemInfo.discardButton.SetActive(false);
+        itemInfoUI_ItemInfo.unequidButton.SetActive(true);
+        itemInfoUI_ItemInfo.itemName.text = slots[n].item.itemName;
+        itemInfoUI_ItemInfo.img.sprite = slots[n].item.itemImage;
+        itemInfoUI_ItemInfo.description.text = slots[n].item.itemDescription;
+        itemInfoUI_ItemInfo.unequidText.text = "해제";
         switch (slots[n].item.itemType)
         {
             case Item.ItemType.Weapon:
-                ItemInfoUI.GetComponent<ItemInfo>().type.text = "무기";
+                itemInfoUI_ItemInfo.type.text = "무기";
                 break;
             case Item.ItemType.Armor:
-                ItemInfoUI.GetComponent<ItemInfo>().type.text = "방어구";
+                itemInfoUI_ItemInfo.type.text = "방어구";
                 break;
             case Item.ItemType.Ring:
-                ItemInfoUI.GetComponent<ItemInfo>().type.text = "반지";
+                itemInfoUI_ItemInfo.type.text = "반지";
                 break;
             default:
-                ItemInfoUI.GetComponent<ItemInfo>().type.text = "???";
-                ItemInfoUI.GetComponent<ItemInfo>().UseText.text = "???";
+                itemInfoUI_ItemInfo.type.text = "???";
+                itemInfoUI_ItemInfo.UseText.text = "???";
                 break;
         }
         ReloadEquid();
