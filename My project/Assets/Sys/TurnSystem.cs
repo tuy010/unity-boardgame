@@ -228,12 +228,9 @@ public class TurnSystem : MonoBehaviour
         {
             Player player_Player = playerList[playerCount].GetComponent<Player>();
             Node nownode_Node = player_Player.nowNode.GetComponent<Node>();
-            if(nownode_Node.isCrossroad)
+            if(nownode_Node.isCrossroad && diceCnt < dice)
             {
-                if (diceCnt < dice)
-                {
-                    ChoseCrossroad(playerList[playerCount]);
-                }
+                ChoseCrossroad(playerList[playerCount]);
             }
             else
             {
