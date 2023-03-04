@@ -228,44 +228,51 @@ public class TurnSystem : MonoBehaviour
         {
             Player player_Player = playerList[playerCount].GetComponent<Player>();
             Node nownode_Node = player_Player.nowNode.GetComponent<Node>();
-            if(player_Player.nowNode == player_Player.townNode && diceCnt != 0)
+            if(nownode_Node.isCrossroad)
             {
-                turnProgress = TurnProgress.TownNode;
-            }
-            else if (nownode_Node.isCrossroad && diceCnt < dice && turnStep == 0)
-            {
-                ChoseCrossroad(playerList[playerCount]);
-            }
-            else if (nownode_Node.nodeType == Node.NodeType.PortalNode)
-            {
-                timer += Time.deltaTime;
-                if (timer > 0.5f)
+                if (diceCnt < dice)
                 {
-                    player_Player.nowNode = player_Player.townNode;
-                    timer = 0;
+                    ChoseCrossroad(playerList[playerCount]);
+                }
+            }
+            else
+            {
+                if (player_Player.nowNode == player_Player.townNode && diceCnt != 0)
+                {
                     turnProgress = TurnProgress.TownNode;
                 }
-            }
-            else if (diceCnt < dice)
-            {
-                timer += Time.deltaTime;
-                if (timer > 0.5f)
+                else if (nownode_Node.nodeType == Node.NodeType.PortalNode)
                 {
-                    MovePlayer(playerList[playerCount]);
-                    timer = 0;
-                    diceCnt++;
+                    timer += Time.deltaTime;
+                    if (timer > 0.5f)
+                    {
+                        player_Player.nowNode = player_Player.townNode;
+                        timer = 0;
+                        turnProgress = TurnProgress.TownNode;
+                    }
+                }
+                else if (diceCnt < dice)
+                {
+                    timer += Time.deltaTime;
+                    if (timer > 0.5f)
+                    {
+                        MovePlayer(playerList[playerCount]);
+                        timer = 0;
+                        diceCnt++;
+                    }
+                }
+                else if (diceCnt >= dice)
+                {
+                    timer += Time.deltaTime;
+                    if (timer > 1)
+                    {
+                        turnProgress = TurnProgress.NodeEvent;
+                        timer = 0;
+                        diceCnt = 0;
+                    }
                 }
             }
-            else if (diceCnt >= dice)
-            {
-                timer += Time.deltaTime;
-                if (timer > 1)
-                {
-                    turnProgress = TurnProgress.NodeEvent;
-                    timer = 0;
-                    diceCnt = 0;
-                }
-            }
+            
         }      
         else if (turnProgress == TurnProgress.NodeEvent)
         {
@@ -421,6 +428,7 @@ public class TurnSystem : MonoBehaviour
                 MovePlayer(player, isAnotherRoad);
                 isAnotherRoad = -1;
                 turnStep = 0;
+                Debug.Log("Chose Road");
             }
         }
     }

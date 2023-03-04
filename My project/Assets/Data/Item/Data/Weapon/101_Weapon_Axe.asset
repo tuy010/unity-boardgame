@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemCode: 101
   itemName: "\uD65C"
-  itemDescription: "Dex +10\n\n\uAC8C\uC774\uD2B9) \uD65C\uC500"
+  itemDescription: "Dex +10\n\n\uD558\uB0A8\uD2B9) \uD65C\uC500"
   itemType: 0
   itemImage: {fileID: 21300000, guid: 5d7061fc7da05ce44add317708ec7215, type: 3}
   _str: 0

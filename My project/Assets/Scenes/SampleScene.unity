@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.45055294, g: 0.50053793, b: 0.5750794, a: 1}
+  m_IndirectSpecularColor: {r: 0.45055324, g: 0.50053906, b: 0.5750802, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4615,7 +4615,7 @@ MonoBehaviour:
   prevNode: {fileID: 826231352}
   isCrossroad: 0
   anotherNode: {fileID: 0}
-  nodeType: 7
+  nodeType: 0
 --- !u!1 &443046547
 GameObject:
   m_ObjectHideFlags: 0

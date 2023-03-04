@@ -131,7 +131,7 @@ public class NodeEvnet_Chance : MonoBehaviour
         }
         else if (!answer)
         {
-            EventUI.GetComponent<ChanceUI>().script.text = "당신은 포션을 마시지 않고, 게이같이 도망쳤습니다.";
+            EventUI.GetComponent<ChanceUI>().script.text = "당신은 포션을 마시지 않고, 그 자리를 떠납니다.";
         }
     }
     void Event_1(GameObject target)
