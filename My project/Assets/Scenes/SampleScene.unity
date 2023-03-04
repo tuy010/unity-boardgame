@@ -14170,7 +14170,7 @@ MonoBehaviour:
   prevNode: {fileID: 1890053028}
   isCrossroad: 0
   anotherNode: {fileID: 0}
-  nodeType: 0
+  nodeType: 6
 --- !u!1 &1275506756
 GameObject:
   m_ObjectHideFlags: 0
@@ -18227,7 +18227,7 @@ MonoBehaviour:
   prevNode: {fileID: 849951336}
   isCrossroad: 0
   anotherNode: {fileID: 0}
-  nodeType: 0
+  nodeType: 6
 --- !u!64 &1624857082
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -20670,7 +20670,7 @@ MonoBehaviour:
   prevNode: {fileID: 898247922}
   isCrossroad: 0
   anotherNode: {fileID: 0}
-  nodeType: 0
+  nodeType: 6
 --- !u!1 &1891047617
 GameObject:
   m_ObjectHideFlags: 0
@@ -20894,7 +20894,7 @@ MonoBehaviour:
   prevNode: {fileID: 2082941427}
   isCrossroad: 0
   anotherNode: {fileID: 0}
-  nodeType: 0
+  nodeType: 5
 --- !u!1 &1923717967
 GameObject:
   m_ObjectHideFlags: 0
@@ -22227,7 +22227,7 @@ MonoBehaviour:
   prevNode: {fileID: 849951336}
   isCrossroad: 0
   anotherNode: {fileID: 0}
-  nodeType: 0
+  nodeType: 5
 --- !u!1 &2097028444
 GameObject:
   m_ObjectHideFlags: 0
