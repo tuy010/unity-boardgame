@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
+//using static UnityEditor.Progress;
 
 [CreateAssetMenu(fileName = "New Weapon", menuName = "New Item/Weapon")]
 public class ItemWeapon : Item
